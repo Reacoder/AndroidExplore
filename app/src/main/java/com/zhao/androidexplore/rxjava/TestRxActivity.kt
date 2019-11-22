@@ -3,12 +3,14 @@ package com.zhao.androidexplore.rxjava
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.zhao.androidexplore.R
 import com.zhao.androidexplore.utils.FFLog
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_test.clickBtn
 import kotlinx.android.synthetic.main.activity_test.searchEditText
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import kotlin.concurrent.thread
@@ -26,6 +28,13 @@ class TestRxActivity : AppCompatActivity() {
     private fun init() {
         searchTest()
 //        threadSwitchTest()
+    }
+
+    fun clickTest(){
+        clickBtn.clicks().throttleFirst(600,MILLISECONDS)
+            .subscribe {
+
+            }
     }
 
     /**
@@ -48,16 +57,16 @@ class TestRxActivity : AppCompatActivity() {
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                FFLog.d(TAG, "${threadPrefix()} 收到=$it")
+                FFLog.d(TAG, "${threadPrefix()} result==>>$it")
             }
     }
 
     private fun fakeNetWork(key: String): Observable<String> {
         FFLog.d(TAG, "${threadPrefix()} 发起网络请求: key=$key")
         return Observable.create<String> { emitter ->
-            emitter.onNext("网络返回: 你请求的是 key=$key")
+            emitter.onNext("网络返回结果: key=$key")
             emitter.onComplete()
-        }.delay(1000, MILLISECONDS)
+        }.delay(800, MILLISECONDS)
     }
 
     /**
