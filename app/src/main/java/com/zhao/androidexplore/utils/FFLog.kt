@@ -5,19 +5,19 @@ import android.util.Log
 object FFLog {
     const val TAG = "FFLog"
 
-    fun d(msg: String, tag: String = TAG) {
+    fun d(tag: String = TAG, msg: String = "") {
         Log.d(tag, msg)
     }
 
-    fun i(msg: String, tag: String = TAG) {
+    fun i(tag: String = TAG, msg: String = "") {
         Log.i(tag, msg)
     }
 
-    fun e(msg: String, tag: String = TAG) {
+    fun e(tag: String = TAG, msg: String = "") {
         Log.e(tag, msg)
     }
 
-    fun w(msg: String, tag: String = TAG) {
+    fun w(tag: String = TAG, msg: String = "") {
         Log.w(tag, msg)
     }
 }
