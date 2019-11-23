@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding3.view.clicks
-import com.zhao.androidexplore.rxjava.TestRxActivity
+import com.zhao.androidexplore.rxjava.RxMainActivity
 import kotlinx.android.synthetic.main.activity_main.mainBtn
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun init() {
         mainBtn.clicks().subscribe {
-            startActivity(Intent(this, TestRxActivity::class.java))
+            startActivity(Intent(this, RxMainActivity::class.java))
         }
     }
 }

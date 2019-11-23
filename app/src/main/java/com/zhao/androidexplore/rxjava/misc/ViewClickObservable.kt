@@ -1,4 +1,4 @@
-package com.zhao.androidexplore.rxjava
+package com.zhao.androidexplore.rxjava.misc
 
 import android.view.View
 import android.view.View.OnClickListener

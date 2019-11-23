@@ -5,8 +5,12 @@ import android.util.Log
 object FFLog {
     const val TAG = "FFLog"
 
-    fun d(tag: String = TAG, msg: String = "") {
-        Log.d(tag, msg)
+    fun d(tag: String = TAG, msg: String = "", withThread: Boolean = false) {
+        if (withThread) {
+            Log.d(tag, "${threadPrefix()}$msg")
+        } else {
+            Log.d(tag, msg)
+        }
     }
 
     fun i(tag: String = TAG, msg: String = "") {
@@ -19,5 +23,9 @@ object FFLog {
 
     fun w(tag: String = TAG, msg: String = "") {
         Log.w(tag, msg)
+    }
+
+    private fun threadPrefix(): String {
+        return "线程=${Thread.currentThread().name}: "
     }
 }
