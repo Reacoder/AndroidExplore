@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.jakewharton.rxbinding3.widget.textChanges
 import com.zhao.androidexplore.R
+import com.zhao.androidexplore.rxjava.misc.textChanges
 import com.zhao.androidexplore.utils.FFLog
-import com.zhao.androidexplore.rxjava.misc.NetWorkUtil
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_rx_search.searchEditText
 import java.util.concurrent.TimeUnit.MILLISECONDS
@@ -42,8 +42,14 @@ class SearchFragment : Fragment() {
             }
             /**只推送(也就是发射)最后一次搜索结果*/
             .switchMap { item ->
-                NetWorkUtil.fakeNetWork(item.toString())
+                FFLog.d(TAG, "发起网络请求: item=$item", true)
+                Observable.create<String> { emitter ->
+                    emitter.onNext("网络返回结果: item=$item")
+                    emitter.onComplete()
+                }.delay(800, MILLISECONDS)
             }
+            /**take 操作会拆掉整个流，所以只能搜索一次*/
+//            .take(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 FFLog.d(TAG, "result==>>$it", true)

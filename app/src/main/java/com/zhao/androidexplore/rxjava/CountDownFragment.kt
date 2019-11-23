@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.zhao.androidexplore.R
-import com.zhao.androidexplore.utils.FFLog
 import com.zhao.androidexplore.rxjava.misc.clicks
+import com.zhao.androidexplore.utils.FFLog
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,8 +29,8 @@ class CountDownFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initClick()
-        initCountDown()
-//        initCountDown2()
+//        initCountDown()
+        initCountDown2()
     }
 
     /**
@@ -49,11 +49,29 @@ class CountDownFragment : Fragment() {
             .flatMap {
                 /**每隔一秒发送，0、1、2、3。。。*/
                 Observable.interval(0, 1, SECONDS)
+                    /**需要在内部Observable 里发射Complete 事件，防止Dispose(销毁)整个流*/
+                    /**内部Observable流 的Complete 事件不会Dispose(销毁)整个流*/
+                    .take(count + 1)
+                    .map {
+                        FFLog.d(TAG, "inner map $it")
+                        it
+                    }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete {
+                        FFLog.d(TAG, "doOnComplete")
+                        timerBtn.text = "重新获取"
+                        timerBtn.isEnabled = true
+                        timerBtn.setBackgroundColor(Color.parseColor("#d1d1d1"))
+                    }
             }
-            /**最终会发射complete事件，而onComplete 响应的同时也会调用dispose，拆掉整个流*/
-            .take(count + 1)
+            /**take 会发射complete事件，而onComplete 响应的同时也会调用dispose(销毁)整个流*/
+//            .take(count + 1)
             .map {
                 count - it
+            }
+            /**过滤掉最后一个0，防止调用doOnComplete 之后再次调用onNext */
+            .filter {
+                it > 0L
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Long> {
@@ -62,20 +80,15 @@ class CountDownFragment : Fragment() {
                 }
 
                 override fun onError(e: Throwable) {
-                    FFLog.d(TAG, "onError")
+                    FFLog.d(TAG, "onError $e")
                 }
 
                 override fun onComplete() {
-                    timerBtn.text = "重新获取"
-                    timerBtn.isEnabled = true
-                    timerBtn.setBackgroundColor(Color.parseColor("#d1d1d1"))
-                    /**重新建立链接*/
-                    AndroidSchedulers.mainThread().scheduleDirect {
-                        initCountDown2()
-                    }
+                    FFLog.d(TAG, "onComplete")
                 }
 
                 override fun onNext(t: Long) {
+                    FFLog.d(TAG, "onNext $t")
                     timerBtn.text = "$t"
                 }
             })
