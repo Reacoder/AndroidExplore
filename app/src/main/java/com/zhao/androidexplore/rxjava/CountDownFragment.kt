@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.trello.rxlifecycle3.RxLifecycle
+import com.trello.rxlifecycle3.android.lifecycle.kotlin.bindToLifecycle
+import com.trello.rxlifecycle3.components.support.RxFragment
 import com.zhao.androidexplore.R
 import com.zhao.androidexplore.rxjava.misc.clicks
 import com.zhao.androidexplore.utils.FFLog
@@ -41,6 +44,7 @@ class CountDownFragment : Fragment() {
         var count = 10L
         timerBtn
             .clicks()
+            .bindToLifecycle(this)
             .throttleFirst(800, MILLISECONDS)
             .doOnNext {
                 timerBtn.isEnabled = false
@@ -49,6 +53,8 @@ class CountDownFragment : Fragment() {
             .flatMap {
                 /**每隔一秒发送，0、1、2、3。。。*/
                 Observable.interval(0, 1, SECONDS)
+                    /**内部的事件流也需要绑定生命周期*/
+                    .bindToLifecycle(this)
                     /**需要在内部Observable 里发射Complete 事件，防止Dispose(销毁)整个流*/
                     /**内部Observable流 的Complete 事件不会Dispose(销毁)整个流*/
                     .take(count + 1)
@@ -102,12 +108,14 @@ class CountDownFragment : Fragment() {
         var count = 10L
         timerBtn
             .clicks()
+            .bindToLifecycle(this)
             .throttleFirst(800, MILLISECONDS)
             .subscribe {
                 timerBtn.isEnabled = false
                 timerBtn.setBackgroundColor(Color.parseColor("#39c6c1"))
                 /**每隔一秒发送，0、1、2、3。。。*/
                 Observable.interval(0, 1, SECONDS)
+                    .bindToLifecycle(this)
                     /**最终会发射complete事件，拆掉整个流*/
                     .take(count + 1)
                     .map {
@@ -124,12 +132,14 @@ class CountDownFragment : Fragment() {
                         }
 
                         override fun onComplete() {
+                            FFLog.d(TAG, "onComplete")
                             timerBtn.text = "重新获取"
                             timerBtn.isEnabled = true
                             timerBtn.setBackgroundColor(Color.parseColor("#d1d1d1"))
                         }
 
                         override fun onNext(t: Long) {
+                            FFLog.d(TAG, "onNext $t")
                             timerBtn.text = "$t"
                         }
                     })
@@ -142,6 +152,7 @@ class CountDownFragment : Fragment() {
     @SuppressLint("CheckResult")
     fun initClick() {
         clickBtn.clicks()
+            .bindToLifecycle(this)
             /**这个时间窗口内的点击只有第一次会推送*/
             .throttleFirst(800, MILLISECONDS)
             .subscribe {

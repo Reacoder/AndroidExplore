@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jakewharton.rxbinding3.widget.textChanges
+import com.trello.rxlifecycle3.android.lifecycle.kotlin.bindToLifecycle
 import com.zhao.androidexplore.R
 import com.zhao.androidexplore.utils.FFLog
 import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function3
 import kotlinx.android.synthetic.main.fragment_rx_input_check.inputNameEdit
 import kotlinx.android.synthetic.main.fragment_rx_input_check.inputPhoneEdit
@@ -38,13 +41,29 @@ class InputCheckFragment : Fragment() {
             , Function3<CharSequence, CharSequence, CharSequence, Boolean> { name, phone, sex ->
                 name.isNotEmpty() && phone.isNotEmpty() && sex.isNotEmpty()
             })
+            .bindToLifecycle(this)
             .map {
                 FFLog.d(TAG, "map $it")
                 it
-            }.subscribe {
-                FFLog.d(TAG, "subscribe $it")
-                inputSubmit.isEnabled = it
             }
+            .subscribe(object : Observer<Boolean> {
+                override fun onSubscribe(d: Disposable) {
+                    FFLog.d(TAG, "onSubscribe")
+                }
+
+                override fun onError(e: Throwable) {
+                    FFLog.d(TAG, "onError $e")
+                }
+
+                override fun onComplete() {
+                    FFLog.d(TAG, "onComplete")
+                }
+
+                override fun onNext(t: Boolean) {
+                    FFLog.d(TAG, "onNext $t")
+                    inputSubmit.isEnabled = t
+                }
+            })
     }
 
     @SuppressLint("CheckResult")
@@ -64,12 +83,13 @@ class InputCheckFragment : Fragment() {
             val sex = it[2] as CharSequence
             FFLog.d(TAG, "combineLatest")
             name.isNotEmpty() && phone.isNotEmpty() && sex.isNotEmpty()
-        }.map {
-            FFLog.d(TAG, "map $it")
-            it
-        }.subscribe {
-            FFLog.d(TAG, "subscribe $it")
-            inputSubmit.isEnabled = it
-        }
+        }.bindToLifecycle(this)
+            .map {
+                FFLog.d(TAG, "map $it")
+                it
+            }.subscribe {
+                FFLog.d(TAG, "subscribe $it")
+                inputSubmit.isEnabled = it
+            }
     }
 }

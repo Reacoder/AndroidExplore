@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.trello.rxlifecycle3.android.lifecycle.kotlin.bindToLifecycle
 import com.zhao.androidexplore.R
 import com.zhao.androidexplore.rxjava.misc.textChanges
 import com.zhao.androidexplore.utils.FFLog
@@ -32,6 +33,7 @@ class SearchFragment : Fragment() {
     @SuppressLint("CheckResult")
     fun initSearch() {
         searchEditText.textChanges()
+            .bindToLifecycle(this)
             /**进入页面会发射view 的初始值，需要跳过*/
             .skip(1)
             /**防止输入内容立即搜索*/
