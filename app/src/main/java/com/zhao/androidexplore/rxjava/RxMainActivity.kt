@@ -26,6 +26,7 @@ class RxMainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.rxContainer,SearchFragment())
             .add(R.id.rxContainer,CountDownFragment())
+            .add(R.id.rxContainer,InputCheckFragment())
             .commit()
 //        invokeTest()
 //        threadSwitchTest()

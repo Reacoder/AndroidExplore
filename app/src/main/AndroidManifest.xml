@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".rxjava.RxMainActivity" />
+        <activity
+            android:name=".rxjava.RxMainActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
