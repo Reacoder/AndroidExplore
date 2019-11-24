@@ -23,6 +23,7 @@ class RxMainActivity : AppCompatActivity() {
             .add(R.id.rxContainer, ComposeFragment())
             .add(R.id.rxContainer, DisposeFragment())
             .add(R.id.rxContainer, BackpressureFragment())
+            .add(R.id.rxContainer, LevelsCacheFragment())
             .commit()
     }
 }
