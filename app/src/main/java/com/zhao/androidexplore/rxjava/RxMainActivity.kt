@@ -21,6 +21,7 @@ class RxMainActivity : AppCompatActivity() {
             .add(R.id.rxContainer, InputCheckFragment())
             .add(R.id.rxContainer, OtherFragment())
             .add(R.id.rxContainer, ComposeFragment())
+            .add(R.id.rxContainer, DisposeFragment())
             .commit()
     }
 }
