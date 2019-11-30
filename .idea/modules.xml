@@ -5,7 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidExplore.iml" filepath="$PROJECT_DIR$/AndroidExplore.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/AndroidExplore-app.iml" filepath="$PROJECT_DIR$/app/AndroidExplore-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-AndroidExplore.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-AndroidExplore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/AndroidStudioProjects-AndroidExplore-app.iml" filepath="$PROJECT_DIR$/app/AndroidStudioProjects-AndroidExplore-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zhaosam-AndroidStudioProjects-AndroidExplore.iml" filepath="$PROJECT_DIR$/zhaosam-AndroidStudioProjects-AndroidExplore.iml" />
     </modules>
   </component>
 </project>

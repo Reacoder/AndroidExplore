@@ -4,16 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/mainBtn"
+        android:id="@+id/rxBtn"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:text="RxJava"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/jetpackBtn"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:text="Jetpack"
+        app:layout_constraintLeft_toRightOf="@+id/rxBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
