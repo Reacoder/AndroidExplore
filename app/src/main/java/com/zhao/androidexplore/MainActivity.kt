@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding3.view.clicks
 import com.zhao.androidexplore.rxjava.RxMainActivity
+import com.zhao.androidexplore.utils.FFLog
 import kotlinx.android.synthetic.main.activity_main.mainBtn
 
 class MainActivity : AppCompatActivity() {
@@ -22,5 +23,9 @@ class MainActivity : AppCompatActivity() {
         mainBtn.clicks().subscribe {
             startActivity(Intent(this, RxMainActivity::class.java))
         }
+    }
+
+    private fun test(){
+        FFLog.d("test")
     }
 }
