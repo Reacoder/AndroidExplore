@@ -28,4 +28,8 @@ object FFLog {
     private fun threadPrefix(): String {
         return "线程=${Thread.currentThread().name}: "
     }
+
+    private fun threadPrefix2(): String {
+        return "线程2=${Thread.currentThread().name}: "
+    }
 }
