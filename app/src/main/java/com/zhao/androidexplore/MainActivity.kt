@@ -26,6 +26,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun test(){
-        FFLog.d("test")
+        FFLog.d("test  ")
     }
 }
